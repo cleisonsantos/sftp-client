@@ -16,16 +16,20 @@ module.exports = {
 
         try {
 
+            let dir = ""
+            req.params.dir ? dir = req.params.dir.replace(/-/g, "/") : dir
+            // return console.log(dir)
             await sftp.connect(config)
-            const data = await sftp.list(`/home/${config.username}`)
+            const data = await sftp.list(`/home/${config.username}/${dir}`)
             res.send(data)
-        
+            await sftp.end()
+
         } catch (error) {
-        
+
             console.log(error)
-        
+
         }
-        
+
     }
 
 }
